@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全国社工内部备案推荐就业信息申请系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #343a40;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 950px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #2c3e50 0%, #1a365d 100%);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header h1 {
+            font-size: 2.0rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+        
+        .subheading {
+            font-size: 1.0rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .live-time {
+            background: rgba(255,255,255,0.15);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+        
+        .status-container {
+            display: flex;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            padding: 20px 0;
+            margin: 30px 40px 0;
+            border-radius: 10px;
+        }
+        
+        .status-box {
+            text-align: center;
+            padding: 0 40px;
+        }
+        
+        .status-box:not(:last-child) {
+            border-right: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .status-label {
+            font-size: 1.0rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .status-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            position: relative;
+            color: white;
+        }
+        
+        .editable {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            min-width: 80px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .editable:hover {
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .ticker-container {
+            background: rgba(45, 52, 71, 0.9);
+            color: #ffdc62;
+            padding: 10px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .ticker-content {
+            white-space: nowrap;
+            display: flex;
+            animation: ticker-scroll 30s linear infinite;
+        }
+        
+        .ticker-item {
+            margin-right: 60px;
+            font-size: 1.0rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .ticker-item span {
+            color: #5bc0eb;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        @keyframes ticker-scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            position: relative;
+            font-size: 1.6rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-left: 15px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(to right, #6a5acd, #5d3a9c);
+            border-radius: 3px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: flex;
+            margin: 0 -10px;
+        }
+        
+        .form-column {
+            flex: 1;
+            padding: 0 10px;
+        }
+        
+        .form-column-full {
+            flex: 0 0 100%;
+            padding: 0 10px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+            font-size: 1.0rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            height: 45px;
+            padding: 0 14px;
+            font-size: 1.0rem;
+            border: 2px solid #ced4da;
+            border-radius: 8px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #6a5acd;
+            box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.2);
+        }
+        
+        .select-container {
+            position: relative;
+        }
+        
+        .select-container:after {
+            content: "▼";
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #5d3a9c;
+            pointer-events: none;
+            font-size: 0.7rem;
+        }
+        
+        select.form-input {
+            appearance: none;
+            padding-right: 35px;
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(to right, #5d3a9c, #3d2a69);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(93, 58, 156, 0.3);
+            margin-top: 25px;
+            letter-spacing: 1px;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(to right, #6a5acd, #4f3b9e);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(93, 58, 156, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(245, 247, 252, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.2rem;
+            color: #5d3a9c;
+            margin-bottom: 12px;
+        }
+        
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .feature-desc {
+            color: #556274;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #6c757d;
+            background: rgba(245, 247, 252, 0.8);
+            margin-top: 25px;
+            font-size: 0.9rem;
+        }
+        
+        .contact-info {
+            margin-top: 12px;
+            font-size: 0.9rem;
+        }
+        
+        .contact-link {
+            color: #5d3a9c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .status-container {
+                flex-direction: column;
+                padding: 15px;
+                margin: 20px 15px 0;
+            }
+            
+            .status-box {
+                padding: 12px 0;
+            }
+            
+            .status-box:not(:last-child) {
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.3);
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-column {
+                margin-bottom: 20px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>全国社工内部备案推荐就业信息申请系统</h1>
+            <div class="subheading">小班授课 · 专业辅导 · 高通过率 · 限额报名</div>
+            <div id="current-time" class="live-time">2025年8月4日 11:28:45</div>
+            
+            <div class="status-container">
+                <div class="status-box">
+                    <div class="status-label">剩余名额</div>
+                    <div class="status-value">
+                        <div class="editable" id="spots">30</div>
+                    </div>
+                </div>
+                <div class="status-box">
+                    <div class="status-label">锁定名额</div>
+                    <div class="status-value">
+                        <div class="editable" id="locked">12</div>
+                    </div>
+                </div>
+                <div class="status-box">
+                    <div class="status-label">开班时间</div>
+                    <div class="status-value">
+                        <div class="editable" id="class-date">2025/09/01</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ticker-container">
+            <div class="ticker-content">
+                <div class="ticker-item"><span>通知：</span>江苏无锡张**成功锁定名额</div>
+                <div class="ticker-item"><span>优惠：</span>20:00前提交报名免费赠送教材、题库</div>
+                <div class="ticker-item"><span>更新：</span>2025版教材已同步更新</div>
+                <div class="ticker-item"><span>喜报：</span>上一期学员考试通过率达92.6%</div>
+                <div class="ticker-item"><span>师资：</span>新增5位行业资深讲师</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="form-section">
+                <h2 class="section-title">基本信息填写</h2>
+                
+                <div class="form-row">
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label class="form-label" for="name">姓名</label>
+                            <input type="text" id="name" class="form-input" placeholder="请输入您的姓名">
+                        </div>
+                    </div>
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label class="form-label" for="phone">手机号码</label>
+                            <input type="tel" id="phone" class="form-input" placeholder="请输入您的手机号码">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label class="form-label" for="area">报考地区</label>
+                            <div class="select-container">
+                                <select id="area" class="form-input">
+                                    <option value="">请选择报考地区</option>
+                                    <option value="北京">北京市</option>
+                                    <option value="天津">天津市</option>
+                                    <option value="河北">河北省</option>
+                                    <option value="山西">山西省</option>
+                                    <option value="内蒙古">内蒙古自治区</option>
+                                    <option value="辽宁">辽宁省</option>
+                                    <option value="吉林">吉林省</option>
+                                    <option value="黑龙江">黑龙江省</option>
+                                    <option value="上海">上海市</option>
+                                    <option value="江苏">江苏省</option>
+                                    <option value="浙江">浙江省</option>
+                                    <option value="安徽">安徽省</option>
+                                    <option value="福建">福建省</option>
+                                    <option value="江西">江西省</option>
+                                    <option value="山东">山东省</option>
+                                    <option value="河南">河南省</option>
+                                    <option value="湖北">湖北省</option>
+                                    <option value="湖南">湖南省</option>
+                                    <option value="广东">广东省</option>
+                                    <option value="广西">广西壮族自治区</option>
+                                    <option value="海南">海南省</option>
+                                    <option value="重庆">重庆市</option>
+                                    <option value="四川">四川省</option>
+                                    <option value="贵州">贵州省</option>
+                                    <option value="云南">云南省</option>
+                                    <option value="西藏">西藏自治区</option>
+                                    <option value="陕西">陕西省</option>
+                                    <option value="甘肃">甘肃省</option>
+                                    <option value="青海">青海省</option>
+                                    <option value="宁夏">宁夏回族自治区</option>
+                                    <option value="新疆">新疆维吾尔自治区</option>
+                                    <option value="台湾">台湾省</option>
+                                    <option value="香港">香港特别行政区</option>
+                                    <option value="澳门">澳门特别行政区</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label class="form-label" for="level">报考级别</label>
+                            <div class="select-container">
+                                <select id="level" class="form-input">
+                                    <option value="">选择报考级别</option>
+                                    <option value="初级">初级社会工作者资格报考</option>
+                                    <option value="中级">中级社会工作者资格报考</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-column-full">
+                        <div class="form-group">
+                            <label class="form-label" for="address">教材邮寄地址</label>
+                            <input type="text" id="address" class="form-input" placeholder="请输入详细的教材邮寄地址（省市区街道门牌号）">
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="submit-btn" class="submit-btn">立即锁定名额</button>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3 class="feature-title">个性化学习方案</h3>
+                    <p class="feature-desc">根据学员基础和备考时间定制专属学习计划，高效利用备考时间</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍🏫</div>
+                    <h3 class="feature-title">权威师资团队</h3>
+                    <p class="feature-desc">由10年以上社工教育专家领衔，业内资深讲师全程辅导</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💯</div>
+                    <h3 class="feature-title">高通过率保障</h3>
+                    <p class="feature-desc">去年学员通过率达92.6%，未通过可免费重修下一期课程</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>全国社工教育培训中心 © 2025</p>
+            <p class="contact-info">咨询电话：<a class="contact-link" href="tel:400-123-4567">400-123-4567</a> | 邮箱：<a class="contact-link" href="mailto:contact@socialworker-edu.org">contact@socialworker-edu.org</a></p>
+        </div>
+    </div>
+    
+    <script>
+        // 实时时间更新
+        function updateTime() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            });
+            const timeStr = now.toLocaleTimeString('zh-CN', {
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('current-time').textContent = `${dateStr} ${timeStr}`;
+        }
+        
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        // 模拟滚动播报的动态效果
+        const ticker = document.querySelector('.ticker-content');
+        ticker.innerHTML += ticker.innerHTML;
+        
+        // 名额编辑功能
+        const spotsElement = document.getElementById('spots');
+        const dateElement = document.getElementById('class-date');
+        const lockedElement = document.getElementById('locked');
+        
+        // 双击编辑名额
+        spotsElement.addEventListener('dblclick', function() {
+            const currentValue = parseInt(this.textContent);
+            if (isNaN(currentValue)) return;
+            
+            this.setAttribute('contenteditable', 'true');
+            this.focus();
+            selectText(this);
+            
+            // 添加编辑样式
+            this.style.background = 'rgba(255,255,255,0.3)';
+            this.style.boxShadow = '0 0 10px rgba(255,255,255,0.5)';
+        });
+
+        // 完成编辑
+        spotsElement.addEventListener('blur', function() {
+            this.removeAttribute('contenteditable');
+            let value = parseInt(this.textContent);
+            if (isNaN(value)) value = 30;
+            this.textContent = value;
+            
+            // 恢复原样式
+            this.style.background = 'rgba(255,255,255,0.15)';
+            this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+        });
+        
+        // 双击编辑开班时间
+        dateElement.addEventListener('dblclick', function() {
+            this.setAttribute('contenteditable', 'true');
+            this.focus();
+            selectText(this);
+            
+            // 添加编辑样式
+            this.style.background = 'rgba(255,255,255,0.3)';
+            this.style.boxShadow = '0 0 10px rgba(255,255,255,0.5)';
+        });
+
+        // 完成编辑
+        dateElement.addEventListener('blur', function() {
+            this.removeAttribute('contenteditable');
+            
+            // 简单日期格式验证
+            const dateValue = this.textContent.trim();
+            if (!/^\d{4}\/\d{2}\/\d{2}$/.test(dateValue)) {
+                this.textContent = '2025/09/01'; // 恢复默认值
+                alert('日期格式应为YYYY/MM/DD');
+            }
+            
+            // 恢复原样式
+            this.style.background = 'rgba(255,255,255,0.15)';
+            this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+        });
+        
+        // 双击编辑锁定名额
+        lockedElement.addEventListener('dblclick', function() {
+            const currentValue = parseInt(this.textContent);
+            if (isNaN(currentValue)) return;
+            
+            this.setAttribute('contenteditable', 'true');
+            this.focus();
+            selectText(this);
+            
+            // 添加编辑样式
+            this.style.background = 'rgba(255,255,255,0.3)';
+            this.style.boxShadow = '0 0 10px rgba(255,255,255,0.5)';
+        });
+
+        // 完成编辑
+        lockedElement.addEventListener('blur', function() {
+            this.removeAttribute('contenteditable');
+            let value = parseInt(this.textContent);
+            if (isNaN(value)) value = 12;
+            this.textContent = value;
+            
+            // 恢复原样式
+            this.style.background = 'rgba(255,255,255,0.15)';
+            this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+        });
+        
+        // 按回车完成编辑
+        function setupEnterKeyHandler(element) {
+            element.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.blur();
+                }
+            });
+        }
+        
+        setupEnterKeyHandler(spotsElement);
+        setupEnterKeyHandler(dateElement);
+        setupEnterKeyHandler(lockedElement);
+        
+        // 选中文本函数
+        function selectText(element) {
+            const range = document.createRange();
+            range.selectNodeContents(element);
+            
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+        
+        // 表单提交效果
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const area = document.getElementById('area').value;
+            const level = document.getElementById('level').value;
+            const address = document.getElementById('address').value.trim(); // 获取邮寄地址
+            
+            if (!name) {
+                alert('请填写您的姓名');
+                return;
+            }
+            
+            if (!phone || !/^1[3-9]\d{9}$/.test(phone)) {
+                alert('请填写正确的手机号码');
+                return;
+            }
+            
+            if (!area) {
+                alert('请选择报考地区');
+                return;
+            }
+            
+            if (!level) {
+                alert('请选择报考级别');
+                return;
+            }
+            
+            if (!address) {
+                alert('请填写教材邮寄地址');
+                return;
+            }
+            
+            // 提交效果
+            const originalText = this.textContent;
+            this.textContent = '提交中...';
+            this.disabled = true;
+            
+            // 模拟提交过程
+            setTimeout(() => {
+                // 减少名额
+                const spotsText = document.getElementById('spots').textContent;
+                let spots = parseInt(spotsText);
+                if (!isNaN(spots) && spots > 0) {
+                    spots--;
+                    document.getElementById('spots').textContent = spots;
+                }
+                
+                // 增加锁定名额
+                const lockedText = document.getElementById('locked').textContent;
+                let locked = parseInt(lockedText);
+                if (!isNaN(locked)) {
+                    locked++;
+                    document.getElementById('locked').textContent = locked;
+                }
+                
+                // 更新滚动通知
+                const newNotice = `<div class="ticker-item"><span>通知：</span>${area}${name.charAt(0)}**成功锁定名额</div>`;
+                document.querySelector('.ticker-content').innerHTML = newNotice + document.querySelector('.ticker-content').innerHTML;
+                
+                // 恢复按钮状态
+                this.textContent = '名额锁定成功！';
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.disabled = false;
+                    
+                    // 显示成功提示（包含邮寄地址）
+                    alert(`尊敬的${name}同学，您已锁定名额！\n\n手机号码：${phone}\n报考地区：${area}\n报考级别：${level}\n教材邮寄地址：${address}\n\n请尽快联系支付完成报名流程。`);
+                    
+                    // 重置表单
+                    document.getElementById('name').value = '';
+                    document.getElementById('phone').value = '';
+                    document.getElementById('area').selectedIndex = 0;
+                    document.getElementById('level').selectedIndex = 0;
+                    document.getElementById('address').value = '';
+                }, 3000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
